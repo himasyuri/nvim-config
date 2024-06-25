@@ -73,12 +73,22 @@ M.setup = function()
     }
   end
 
+  -- Volar LSP configuration
   require("lspconfig").volar.setup {
     init_options = {
       typescript = {
         tsdk = vim.fn.getcwd() .. "/node_modules/typescript/lib",
       },
     },
+  }
+
+  -- Omnisharp LSP configuration
+  require("lspconfig").omnisharp.setup {
+    capabilities = M.capabilities,
+    cmd = { "dotnet", vim.fn.stdpath "data" .. "/mason/packages/omnisharp/libexec/OmniSharp.dll" },
+    enable_import_completion = true,
+    organize_imports_on_format = true,
+    enable_roslyn_analyzers = true,
   }
 
   -- Custom LSP configuration
