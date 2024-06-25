@@ -14,6 +14,7 @@ M.mason = {
     "intelephense",
     "sqlfmt",
     "marksman",
+    "vue-language-server"
   },
   PATH = "skip",
   ui = {

@@ -19,18 +19,6 @@ local function get_tsserver_path()
   end
 end
 
-local function get_gopls_path()
-  local path = vim.fn.getcwd() .. "/Users/annvasileva/go/bin/gopls"
-  if file_exists(path) then
-    return path
-  else
-    return nil
-  end
-end
-
-local function get_csharpsdk_path()
-end
-
 return {
   {
     "neovim/nvim-lspconfig",

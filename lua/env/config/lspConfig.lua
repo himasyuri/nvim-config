@@ -60,6 +60,8 @@ M.setup = function()
     "marksman",
     "intelephense",
     "tailwindcss",
+    "gopls",
+    "omnisharp"
   }
 
   -- Setup servers with default configuration
@@ -70,6 +72,14 @@ M.setup = function()
       on_init = M.on_init,
     }
   end
+
+  require("lspconfig").volar.setup {
+    init_options = {
+      typescript = {
+        tsdk = vim.fn.getcwd() .. "/node_modules/typescript/lib",
+      },
+    },
+  }
 
   -- Custom LSP configuration
   require("lspconfig").lua_ls.setup {
