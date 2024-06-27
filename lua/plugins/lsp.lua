@@ -25,7 +25,15 @@ return {
     dependencies = {
       {
         "pmizio/typescript-tools.nvim",
+        "windwp/nvim-ts-autotag",
         config = function()
+          require("nvim-ts-autotag").setup({
+            opts = {
+              enable_close = true,
+              enable_rename = true,
+              enable_close_on_slash = false
+            }
+          })
           require("typescript-tools").setup {
             on_attach = function(client, _)
               client.server_capabilities.semanticTokensProvider = nil
@@ -43,4 +51,17 @@ return {
       config.setup()
     end,
   },
+  {
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    config = true
+  },
+  {
+    "ray-x/lsp_signature.nvim",
+    event = "VeryLazy",
+    opts = {},
+    config = function(_, opts)
+      require("lsp_signature").setup(opts)
+    end
+  }
 }
