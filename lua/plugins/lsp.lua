@@ -25,15 +25,7 @@ return {
     dependencies = {
       {
         "pmizio/typescript-tools.nvim",
-        "windwp/nvim-ts-autotag",
         config = function()
-          require("nvim-ts-autotag").setup({
-            opts = {
-              enable_close = true,
-              enable_rename = true,
-              enable_close_on_slash = false
-            }
-          })
           require("typescript-tools").setup {
             on_attach = function(client, _)
               client.server_capabilities.semanticTokensProvider = nil
@@ -43,6 +35,12 @@ return {
             },
           }
         end,
+      },
+      {
+        "windwp/nvim-ts-autotag",
+        config = function()
+          require("nvim-ts-autotag").setup()
+        end
       },
       { "folke/neodev.nvim", ft = "lua" },
     },
