@@ -61,7 +61,7 @@ M.setup = function()
     "intelephense",
     "tailwindcss",
     "gopls",
-    "omnisharp"
+    "omnisharp",
   }
 
   -- Setup servers with default configuration
@@ -75,6 +75,8 @@ M.setup = function()
 
   -- Volar LSP configuration
   require("lspconfig").volar.setup {
+    on_attach = M.on_attach,
+    capabilities = M.capabilities,
     init_options = {
       typescript = {
         tsdk = vim.fn.getcwd() .. "/node_modules/typescript/lib",
@@ -82,8 +84,29 @@ M.setup = function()
     },
   }
 
+  -- Pyright LSP configuration
+  require("lspconfig").pyright.setup {
+    capabilities = M.capabilities,
+    on_attach = M.on_attach,
+    filetypes = { "python" },
+    settings = {
+      pyright = {
+        autoImportCompletion = true,
+      },
+      python = {
+        analysis = {
+          autoSearchPaths = true,
+          diagnosticMode = "openFilesOnly",
+          useLibraryCodeForTypes = true,
+          typeCheckingMode = "on"
+        }
+      }
+    }
+  }
+
   -- Omnisharp LSP configuration
   require("lspconfig").omnisharp.setup {
+    on_attach = M.on_attach,
     capabilities = M.capabilities,
     cmd = { "dotnet", vim.fn.stdpath "data" .. "/mason/packages/omnisharp/libexec/OmniSharp.dll" },
     enable_import_completion = true,

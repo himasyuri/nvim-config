@@ -20,6 +20,7 @@ return {
     "proto",
     "vue",
     "c_sharp",
+    "python"
   },
   sync_install = false,
   auto_install = true,

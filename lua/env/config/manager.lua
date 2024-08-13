@@ -14,7 +14,13 @@ M.mason = {
     "intelephense",
     "sqlfmt",
     "marksman",
-    "vue-language-server"
+    "vue-language-server",
+    "pyright",
+    "goimports",
+    "golines",
+    "gofumpt",
+    "netcoredbg",
+    "csharpier"
   },
   PATH = "skip",
   ui = {

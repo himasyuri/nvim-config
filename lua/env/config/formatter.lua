@@ -12,6 +12,7 @@ M.conformConfig = {
     typescript = { "prettierd" },
     typescriptreact = { "prettierd" },
     typescriptvue = { "prettier" },
+    vue = { "prettierd" },
 
     css = { "prettier" },
     html = { "prettier" },
@@ -21,6 +22,8 @@ M.conformConfig = {
     mdx = { "prettier" },
 
     sql = { "sqlfmt" },
+    go = { "gofumpt", "goimports", "golines" },
+    csharp = { "csharpier" },
   },
 }
 function M.conformKeys()
