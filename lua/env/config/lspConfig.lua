@@ -74,6 +74,26 @@ M.setup = function()
   end
 
   -- Volar LSP configuration
+  local mason_registry = require "mason-registry"
+  local vue_language_server_path = mason_registry
+    .get_package("vue-language-server")
+    :get_install_path() .. "/node_modules/@vue/language-server"
+
+  require("lspconfig").tsserver.setup {
+    on_attach = M.on_attach,
+    capabilities = M.capabilities,
+    init_options = {
+      plugins = {
+        {
+          name = "@vue/typescript-plugin",
+          location = vue_language_server_path,
+          languages = { "vue" },
+        },
+      },
+    },
+    filetypes = { "vue" },
+  }
+
   require("lspconfig").volar.setup {
     on_attach = M.on_attach,
     capabilities = M.capabilities,
@@ -98,17 +118,21 @@ M.setup = function()
           autoSearchPaths = true,
           diagnosticMode = "openFilesOnly",
           useLibraryCodeForTypes = true,
-          typeCheckingMode = "on"
-        }
-      }
-    }
+          typeCheckingMode = "on",
+        },
+      },
+    },
   }
 
   -- Omnisharp LSP configuration
   require("lspconfig").omnisharp.setup {
     on_attach = M.on_attach,
     capabilities = M.capabilities,
-    cmd = { "dotnet", vim.fn.stdpath "data" .. "/mason/packages/omnisharp/libexec/OmniSharp.dll" },
+    cmd = {
+      "dotnet",
+      vim.fn.stdpath "data"
+        .. "/mason/packages/omnisharp/libexec/OmniSharp.dll",
+    },
     enable_import_completion = true,
     organize_imports_on_format = true,
     enable_roslyn_analyzers = true,
