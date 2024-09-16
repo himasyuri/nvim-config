@@ -20,7 +20,8 @@ M.mason = {
     "golines",
     "gofumpt",
     "netcoredbg",
-    "csharpier"
+    "csharpier",
+    "delve"
   },
   PATH = "skip",
   ui = {
