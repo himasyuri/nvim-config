@@ -1,4 +1,4 @@
-local config = require "env.config.telescope"
+local config = require "env.config.telescope_files"
 
 return {
   {

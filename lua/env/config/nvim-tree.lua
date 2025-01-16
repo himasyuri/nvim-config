@@ -58,8 +58,7 @@ M.nvimTree = {
           renamed = "➜",
           untracked = "",
           deleted = "",
-          ignored = "",
-          -- ignored = "◌",
+          ignored = "◌",
         },
       },
     },
@@ -71,7 +70,7 @@ function M.nvimTreeKeys()
 
   return {
     {
-      "<C-b>",
+      "<C-t>",
       function()
         api.tree.toggle()
       end,
