@@ -23,6 +23,43 @@ M.on_attach = function(client, bufnr)
   end
 end
 
+M.on_attach_omnisharp = function(client, bufnr)
+  local function opts(desc)
+    return { buffer = bufnr, desc = "LSP " .. desc }
+  end
+
+  map(
+    "n",
+    "gd",
+    '<cmd>lua require("omnisharp_extended").lsp_definition()<CR>',
+    opts "Go to Definition"
+  )
+  map(
+    "n",
+    "<leader>D",
+    '<cmd>lua require("omnisharp_extended").lsp_type_definition()<CR>',
+    opts "Go to Type definition"
+  )
+  map(
+    "n",
+    "gr",
+    '<cmd>lua require("omnisharp_extended").lsp_references()<CR>',
+    opts "Show References"
+  )
+  map(
+    "n",
+    "gi",
+    '<cmd>lua require("omnisharp_extended").lsp_implementation()<CR>',
+    opts "Go to Implementation"
+  )
+  map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts "Hover Information")
+
+  -- Signature popup
+  if client.server_capabilities.signatureHelpProvider then
+    require("env.utils.lsp.signature").setup(client, bufnr)
+  end
+end
+
 M.on_init = function(client, _)
   if client.supports_method "textDocument/semanticTokens" then
     client.server_capabilities.semanticTokensProvider = nil
@@ -61,7 +98,6 @@ M.setup = function()
     "intelephense",
     "tailwindcss",
     "gopls",
-    "omnisharp",
   }
 
   -- Setup servers with default configuration
@@ -74,6 +110,9 @@ M.setup = function()
   end
 
   -- Volar LSP configuration
+  local get_vue_lsp_path = function()
+    return vim.fn.getcwd() .. "/node_modules/@vue"
+  end
   local mason_registry = require "mason-registry"
   local vue_language_server_path = mason_registry
     .get_package("vue-language-server")
@@ -126,7 +165,7 @@ M.setup = function()
 
   -- Omnisharp LSP configuration
   require("lspconfig").omnisharp.setup {
-    on_attach = M.on_attach,
+    on_attach = M.on_attach_omnisharp,
     capabilities = M.capabilities,
     cmd = {
       "dotnet",
@@ -136,6 +175,16 @@ M.setup = function()
     enable_import_completion = true,
     organize_imports_on_format = true,
     enable_roslyn_analyzers = true,
+    autoselect_existing_sln = true,
+    enable_ms_build_load_projects_on_demand = true,
+    enable_decompilation_support = true,
+    enable_editorconfig_support = true,
+    enable_package_restore = true,
+    root_dir = require("lspconfig.util").root_pattern(
+      "*.sln",
+      "*.csproj",
+      ".git"
+    ),
   }
 
   -- Custom LSP configuration

@@ -37,6 +37,9 @@ return {
         end,
       },
       {
+        "Hoffs/omnisharp-extended-lsp.nvim",
+      },
+      {
         "windwp/nvim-ts-autotag",
         config = function()
           require("nvim-ts-autotag").setup()
