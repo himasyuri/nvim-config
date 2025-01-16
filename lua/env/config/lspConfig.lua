@@ -118,7 +118,7 @@ M.setup = function()
     .get_package("vue-language-server")
     :get_install_path() .. "/node_modules/@vue/language-server"
 
-  require("lspconfig").tsserver.setup {
+  require("lspconfig").ts_ls.setup {
     on_attach = M.on_attach,
     capabilities = M.capabilities,
     init_options = {
