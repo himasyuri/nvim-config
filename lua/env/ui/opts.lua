@@ -24,6 +24,16 @@ opt.smartindent = true
 opt.tabstop = 2
 opt.softtabstop = 2
 
+-- set for for C# files
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "cs",
+  callback = function()
+    vim.bo.shiftwidth = 4
+    vim.bo.tabstop = 4
+    vim.bo.softtabstop = 4
+  end
+})
+
 -- statusline
 opt.laststatus = 3
 opt.showmode = false

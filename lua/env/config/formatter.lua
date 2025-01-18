@@ -23,7 +23,7 @@ M.conformConfig = {
 
     sql = { "sqlfmt" },
     go = { "gofumpt", "goimports", "golines" },
-    csharp = { "csharpier" },
+    cs = { "csharpier" },
   },
 }
 function M.conformKeys()
