@@ -27,7 +27,7 @@ This repository is my personal neovim configuration. I use it as main work envir
 
 ## Prerequisites
 - **Neovim**: v0.10.0+
-- **ripgrep*
+- **ripgrep**
 - **node**
 - **nerd-fonts**
 - **gcc**
