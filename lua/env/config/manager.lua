@@ -21,7 +21,9 @@ M.mason = {
     "gofumpt",
     "netcoredbg",
     "csharpier",
-    "delve"
+    "delve",
+    "omnisharp",
+    "omnisharp-mono"
   },
   PATH = "skip",
   ui = {
