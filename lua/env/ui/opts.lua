@@ -34,6 +34,17 @@ vim.api.nvim_create_autocmd("FileType", {
   end
 })
 
+-- set for golang
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "go",
+  callback = function()
+    vim.bo.expandtab = false
+    vim.bo.shiftwidth = 2
+    vim.bo.tabstop = 2
+    vim.bo.softtabstop = 2
+  end
+})
+
 -- statusline
 opt.laststatus = 3
 opt.showmode = false
