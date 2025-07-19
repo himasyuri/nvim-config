@@ -134,7 +134,7 @@ function M.cmpConfig()
         end
       end, { "i", "s" }),
     },
-   sources = {
+    sources = {
       { name = "nvim_lsp", max_item_count = 30 },
       { name = "luasnip" },
       { name = "lab.quick_data", keyword_length = 4 },
@@ -158,6 +158,10 @@ function M.luasnipConfig()
   require("luasnip.loaders.from_snipmate").load()
   require("luasnip.loaders.from_snipmate").lazy_load {
     paths = vim.g.snipmate_snippets_path or "",
+  }
+  require("luasnip").filetype_extend("go", { "go" })
+  require("luasnip.loaders.from_lua").lazy_load {
+    paths = vim.fn.stdpath "config" .. "/lua/env/snippets",
   }
 
   -- lua format
