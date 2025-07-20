@@ -1,6 +1,19 @@
 local M = {}
 local map = vim.keymap.set
 
+-- load cinfig Go from .nvim/dap-go.json if exist
+local function load_docker_dap_config()
+  local file = vim.fn.getcwd() .. "/.nvim/dap-go.json"
+  if vim.fn.filereadable(file) == 1 then
+    local content = table.concat(vim.fn.readfile(file), "\n")
+    local ok, parsed = pcall(vim.fn.json_decode, content)
+    if ok then
+      return parsed
+    end
+  end
+  return {}
+end
+
 -- DAP keymaps
 local function set_keymaps()
   local dap = require "dap"
@@ -38,9 +51,13 @@ end
 
 M.setup = function()
   local dap = require "dap"
-  local dapui = require("dapui")
+  local dapui = require "dapui"
 
-  dapui.setup()  -- Ensure dapui is set up properly
+  dap.set_log_level "DEBUG"
+  dap.defaults.fallback.terminal_win_cmd = "50vsplit new"
+  dap.defaults.fallback.log_file = vim.fn.expand "~/.dap.log"
+
+  dapui.setup() -- Ensure dapui is set up properly
 
   -- C# / .NET (netcoredbg)
   dap.adapters.coreclr = {
@@ -64,7 +81,7 @@ M.setup = function()
     },
   }
 
-  -- Go (Delve)
+  -- Go (Delve) local debug
   dap.adapters.delve = {
     type = "server",
     port = 2345,
@@ -72,6 +89,15 @@ M.setup = function()
       command = "dlv",
       args = { "dap", "-l", "127.0.0.1:2345" },
     },
+  }
+
+  local docker_cfg = load_docker_dap_config()
+
+  -- remote Go debugger for Docker
+  dap.adapters.go = {
+    type = "server",
+    host = docker_cfg.host or "127.0.0.1",
+    port = docker_cfg.port or 8070,
   }
 
   dap.configurations.go = {
@@ -100,6 +126,20 @@ M.setup = function()
       program = function()
         return vim.fn.input("Path to go.mod file: ", vim.fn.getcwd(), "file")
       end,
+    },
+    {
+      type = "go",
+      name = "Debug in Docker",
+      request = "attach",
+      mode = "remote",
+      substitutePath = {
+        {
+          from = vim.fn.getcwd(),
+          to = "/app",
+        },
+      },
+      port = docker_cfg.port or 8070,
+      host = docker_cfg.host or "127.0.0.1",
     },
   }
 
