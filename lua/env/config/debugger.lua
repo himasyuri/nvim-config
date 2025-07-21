@@ -144,6 +144,14 @@ M.setup = function()
   }
 
   set_keymaps()
+
+  dap.listeners.after.event_initialized["notify_connected"] = function(session)
+    if session.config.type == "go" then
+      vim.notify("connected to docker Go debugger", vim.log.levels.INFO)
+    else
+      vim.notify("connected", vim.log.levels.INFO)
+    end
+  end
 end
 
 return M
