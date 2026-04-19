@@ -22,20 +22,38 @@ M.conformConfig = {
     mdx = { "prettier" },
 
     sql = { "sqlfmt" },
-    go = { "gofumpt", "goimports", "golines" },
+    go = { "goimports", "golines", "gofumpt" },
     cs = { "csharpier" },
   },
+
+  formatters = {
+    golines = {
+      prepend_args = { "-m", "100" },
+    },
+  },
 }
+
 function M.conformKeys()
   local conform = require "conform"
 
   return {
+    -- Keymap for formatting the entire buffer in Normal mode
+    {
+      "<leader>fm",
+      function()
+        conform.format({ async = true, lsp_fallback = true })
+      end,
+      mode = "n",
+      desc = "Format buffer",
+    },
+    -- Keymap for formatting the selected text in Visual mode
     {
       "<leader>fm",
       function()
         conform.format()
       end,
-      desc = "Format Code",
+      mode = "v",
+      desc = "Format selection",
     },
   }
 end
