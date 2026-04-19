@@ -13,10 +13,17 @@ end
 local function get_tsserver_path()
   local path = vim.fn.getcwd() .. "/node_modules/typescript/lib/tsserver.js"
   if file_exists(path) then
+    print "local"
     return path
-  else
-    return nil
   end
+
+  local bun_ts = os.getenv "HOME" .. "/.bun/bin/tsserver"
+  if file_exists(bun_ts) then
+    print "bun"
+    return bun_ts
+  end
+
+  return nil
 end
 
 return {
@@ -43,7 +50,7 @@ return {
         "windwp/nvim-ts-autotag",
         config = function()
           require("nvim-ts-autotag").setup()
-        end
+        end,
       },
       { "folke/neodev.nvim", ft = "lua" },
     },
@@ -53,9 +60,9 @@ return {
     end,
   },
   {
-    'windwp/nvim-autopairs',
+    "windwp/nvim-autopairs",
     event = "InsertEnter",
-    config = true
+    config = true,
   },
   {
     "ray-x/lsp_signature.nvim",
@@ -63,6 +70,6 @@ return {
     opts = {},
     config = function(_, opts)
       require("lsp_signature").setup(opts)
-    end
-  }
+    end,
+  },
 }
