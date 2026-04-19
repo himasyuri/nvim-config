@@ -20,7 +20,8 @@ return {
     "proto",
     "vue",
     "c_sharp",
-    "python"
+    "python",
+    "yaml",
   },
   sync_install = false,
   auto_install = true,
